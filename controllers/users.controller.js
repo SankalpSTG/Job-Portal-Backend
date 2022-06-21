@@ -1,6 +1,7 @@
 const responses = require("../misc/response")
 const jwtAuth = require("../misc/jwtauth")
 var usersModel = require("../models/users.model")
+var usersSkillsMapModel = require("../models/usersskillsmap.model")
 var bcrypt = require("bcrypt")
 const { response } = require("express")
 var Controller = {}
@@ -29,6 +30,16 @@ Controller.login = async function(data){
         var accessToken = jwtAuth.signAccessToken({userId: credentials.serial_id})
         var refreshToken = jwtAuth.signRefreshToken({userId: credentials.serial_id})
         return responses.loginSuccess(accessToken, refreshToken)
+    }catch(error){
+        console.log(error)
+        return responses.anErrorOccured()
+    }
+}
+Controller.addSkill = async function(data){
+    try{
+        var insertId = await usersSkillsMapModel.insert({userId: data.userId, skillId: data.skill_id})
+        if(insertId === undefined) return responses.anErrorOccured()
+        return responses.success()
     }catch(error){
         console.log(error)
         return responses.anErrorOccured()

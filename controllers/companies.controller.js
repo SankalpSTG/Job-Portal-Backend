@@ -25,8 +25,8 @@ Controller.login = async function(data){
         if(credentials === undefined) return responses.invalidEmailOrPassword()
         var passwordMatch = await bcrypt.compare(data.password, credentials.password)
         if(!passwordMatch) return response.invalidEmailOrPassword()
-        var accessToken = jwtAuth.signAccessToken({userId: credentials.serial_id})
-        var refreshToken = jwtAuth.signRefreshToken({userId: credentials.serial_id})
+        var accessToken = jwtAuth.signAccessToken({companyId: credentials.serial_id})
+        var refreshToken = jwtAuth.signRefreshToken({companyId: credentials.serial_id})
         return responses.loginSuccess(accessToken, refreshToken)
     }catch(error){
         console.log(error)
