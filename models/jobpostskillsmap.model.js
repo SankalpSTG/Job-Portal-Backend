@@ -20,4 +20,13 @@ Model.delete = async function({postId, skillId}){
         return true
     }
 }
+Model.getSkillsOfPostId = async function({postId}){
+    try{
+        var [rows, fields] = await dbconfig.query("SELECT skill_id FROM job_post_skills_map WHERE post_id = ?", [postId])
+        return rows
+    }catch(error){
+        console.log(error)
+        return []
+    }
+}
 module.exports = Model

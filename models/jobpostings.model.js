@@ -19,4 +19,13 @@ Model.getJobById = async function({postId}){
         return undefined
     }
 }
+Model.getOldestUnnotifiedJobPosting = async function(){
+    try{
+        var [rows, fields] = await dbconfig.query("SELECT jp.serial_id AS post_id, jp.title AS post_title, jp.description AS post_description, jp.company_id AS company_id FROM job_postings jp WHERE notified_to_all = 0 ORDER BY serial_id ASC LIMIT 1")
+        return rows[0]
+    }catch(error){
+        console.log(error)
+        return undefined
+    }
+}
 module.exports = Model

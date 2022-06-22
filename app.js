@@ -1,4 +1,6 @@
 require("dotenv").config()
+require("./crons/notificationcreator.cron")
+require("./crons/notificationsender.cron")
 const bodyParser = require("body-parser")
 const express = require("express")
 const apiRouter = require("./routes/index")
