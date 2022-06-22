@@ -8,6 +8,7 @@ const usersModel = require("../models/users.model")
 
 cron.schedule("*/30  * * * * *", async (now) => {
     try{
+        var date = new Date().getTime() / 1000
         var job = await jobPostingsModel.getOldestUnnotifiedJobPosting()
         var requiredSkills = await jobPostSkillsMap.getSkillsOfPostId({postId: job.post_id})
         var skills = requiredSkills.map(value => {
@@ -25,7 +26,7 @@ cron.schedule("*/30  * * * * *", async (now) => {
             matchingSkills = skills.filter(value => userSkills.includes(value));
             skillsMatchRatio = (matchingSkills.length * 100) / skills.length
             if(skillsMatchRatio < 30) unskilled.push([job.post_id, user.serial_id])
-            else skilled.push([job.post_id, user.serial_id])
+            else skilled.push([job.post_id, user.serial_id, date, job.company_id])
             console.log(skillsMatchRatio)
         }
         if(unskilled.length > 0) unskilledUsersForJobModel.insertBulk({data: unskilled})
