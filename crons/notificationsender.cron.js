@@ -1,10 +1,5 @@
 const cron = require('node-cron');
-const jobPostingsModel = require("../models/jobpostings.model")
-const jobPostSkillsMap = require("../models/jobpostskillsmap.model")
-const usersSkillsMap = require("../models/usersskillsmap.model")
 const jobNotificationsModel = require("../models/jobnotifications.model")
-const unskilledUsersForJobModel = require("../models/unskilledusersforjob.model")
-const usersModel = require("../models/users.model")
 const emailBodyHelper = require("../misc/emailbodyhelper")
 const emailUtils = require("../misc/emailutils")
 
@@ -29,10 +24,3 @@ cron.schedule("*/30  * * * * *", async function (now){
         console.log(error)
     }
 })
-// const mailData = {
-//             from: 'crm-notification-service@gmail.com',
-//             to: notification.recepientEmails,
-//             subject: notification.subject,
-//             text: notification.content
-            
-//         }
